@@ -20,15 +20,20 @@ export class ProductService {
     return this.productModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string) {
+    return this.productModel.findById(id);
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  update(id: string, updateProductDto: UpdateProductDto) {
+    const updatedProduct = this.productModel.findByIdAndUpdate(
+      id,
+      updateProductDto,
+      { new: true },
+    );
+    return updatedProduct;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  remove(id: string) {
+    return this.productModel.findByIdAndDelete(id);
   }
 }
