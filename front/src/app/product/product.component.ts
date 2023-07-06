@@ -1,12 +1,14 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from "src/config/types";
-import {ProductService} from "src/app/product/product.service";
+import { ProductService } from "src/app/product/product.service";
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  styleUrls: ['./product.component.css'],
+  providers: [ConfirmationService, MessageService]
 })
 export class ProductComponent {
   visible: boolean = false;
@@ -14,17 +16,20 @@ export class ProductComponent {
   products$: Observable<Product[]> = this._productService.products$;
   products: Product[] = [];
   tempProduct: Product = {
-    id: '0',
+    _id: '0',
     name: '',
     description: '',
     price: 0,
     stock: 0,
     category: '',
-    thumbnail: '',
     image: '',
   }
 
-  constructor(private _productService: ProductService) {
+  constructor(
+    private _productService: ProductService,
+    private _confirmationService: ConfirmationService,
+    private _messageService: MessageService
+    ) {
   }
 
   ngOnInit(): void {
@@ -54,24 +59,38 @@ export class ProductComponent {
   }
 
   deleteProduct(product: Product) {
-    this._productService.deleteProduct(product.id).subscribe((response) => {
+    this._productService.deleteProduct(product._id).subscribe((response) => {
       this.refreshData();
     });
   }
 
+  confirmDelete(event: Event, product: Product) {
+    this._confirmationService.confirm({
+        target: event.target!,
+        message: 'Esta seguro que desea eliminar el producto del inventario',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+            this._messageService.add({ severity: 'success', summary: 'Exitosa', detail: 'Producto Eliminado' });
+            this.deleteProduct(product);
+        },
+        reject: () => {
+            this._messageService.add({ severity: 'error', summary: 'Problema', detail: 'Hubo un error al eliminar el producto,intenet nuevamente' });
+        }
+    });
+}
+
   showDialog(product: Product = {
-    id: '0',
+    _id: '0',
     name: '',
     description: '',
     price: 0,
     stock: 0,
     category: '',
-    thumbnail: '',
     image: ''
   }) {
     this.tempProduct = product
     this.visible = true;
-    if (product.id === '0') {
+    if (product._id === '0') {
       this.create = true
     } else {
       this.create = false

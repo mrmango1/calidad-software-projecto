@@ -25,7 +25,9 @@
         <td>{{product.category}}</td>
         <td>{{product.stock}} und</td>
         <td>
-          <p-button (click)="deleteProduct(product)" styleClass="p-button-danger" icon="pi pni-trash"
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button (click)="confirmDelete($event, product)" styleClass="p-button-danger" icon="pi pni-trash"
             label="Eliminar"></p-button>
           <p-button (click)="showDialog(product)" styleClass="p-button-success" icon="pi pni-external-lik"
             label="Actualizar"></p-button>

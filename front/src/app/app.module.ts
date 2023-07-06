@@ -26,6 +26,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { TagModule } from 'primeng/tag';
 import { MenubarModule } from 'primeng/menubar';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ToastModule } from 'primeng/toast';
     CarouselModule,
     TagModule,
     FormsModule,
-    ToastModule
+    ToastModule,
+    ConfirmPopupModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -28,7 +28,8 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this._httpClient.post<Product>(`${API_URL}/product`, product)
+    const { _id, ...tempProduct } = product
+    return this._httpClient.post<Product>(`${API_URL}/product`, tempProduct)
       .pipe(
         tap((response) => {
           const products = this._products.getValue()
@@ -39,11 +40,11 @@ export class ProductService {
   }
 
   updateProduct(product: Product): Observable<Product> {
-    return this._httpClient.patch<Product>(`${API_URL}/product/${product.id}`, product)
+    return this._httpClient.patch<Product>(`${API_URL}/product/${product._id}`, product)
       .pipe(
         tap((response) => {
           const products = this._products.getValue()
-          const index = products.findIndex((p) => p.id === response.id)
+          const index = products.findIndex((p) => p._id === response._id)
           products[index] = response
           this._products.next(products)
         })
@@ -55,7 +56,7 @@ export class ProductService {
       .pipe(
         tap((response) => {
           const products = this._products.getValue()
-          const index = products.findIndex((p) => p.id === id)
+          const index = products.findIndex((p) => p._id === id)
           products.splice(index, 1)
           this._products.next(products)
         })
