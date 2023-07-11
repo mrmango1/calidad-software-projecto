@@ -7,3 +7,12 @@ export interface Product {
   category: string;
   image: string;
 }
+
+export interface Customer {
+  _id: string;
+  name: string;
+  address: string;
+  mail: string;
+  phone: number;
+  birthday: string;
+}
