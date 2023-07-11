@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-
 import { Customer } from './schemas/custromer.schema';
 
 @Injectable()
@@ -21,15 +20,19 @@ export class CustomerService {
     return this.customerModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
+  findOne(id: string) {
+    return this.customerModel.findById(id);
+  }
+  update(id: string, updateCustomerDto: UpdateCustomerDto) {
+    const updatedCustomer = this.customerModel.findByIdAndUpdate(
+      id,
+      updateCustomerDto,
+      { new: true },
+    );
+    return updatedCustomer;
   }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+  remove(id: string) {
+    return this.customerModel.findByIdAndDelete(id);
   }
 }
