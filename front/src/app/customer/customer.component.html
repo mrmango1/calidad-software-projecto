@@ -19,11 +19,10 @@
     <ng-template pTemplate="body" let-customer>
       <tr>
         <td>{{customer.name}}</td>
-        <td><img [src]="cliente.image" [alt]="cliente.name" width="100" class="shadow-4" /></td>
-        <td>{{customer.lastname}}</td>
         <td>{{customer.address}}</td>
         <td>{{customer.phone}}</td>
-        <td>{{customer.birthday}} und</td>
+        <td>{{customer.mail}}</td>
+        <td>{{customer.birthdate}}</td>
         <td>
           <p-toast></p-toast>
           <p-confirmPopup></p-confirmPopup>
@@ -50,16 +49,17 @@
       <label>Nombre</label>
     </span>
     <span class="p-float-label align-self-center">
-      <textarea type="text" placeholder='Dirección' pInputText [(ngModel)]="tempCustomer.address"></textarea>
+      <input type="text" placeholder='Dirección' pInputText [(ngModel)]="tempCustomer.address" />
       <label>Dirección</label>
-    </span>
-    <span class="p-float-label align-self-center">
-      <input type="mail" placeholder='Correo' pInputText [(ngModel)]="tempCustomer.mail" ></p-inputNumber>
-      <label>Correo</label>
     </span>
     <span class="p-float-label align-self-center">
       <p-inputNumber placeholder='Teléfono' pInputText [(ngModel)]="tempCustomer.phone" ></p-inputNumber>
       <label>Teléfono</label>
+    </span>
+    <span class="p-float-label align-self-center">
+      <input type="mail" placeholder='Correo' pInputText [(ngModel)]="tempCustomer.mail" />
+      <label>Correo</label>
+    </span>
     <span class="p-float-label align-self-center">
       <input type="text" placeholder='F.Nacimiento' pInputText [(ngModel)]="tempCustomer.birthday"/>
       <label>Fecha Nacimiento</label>

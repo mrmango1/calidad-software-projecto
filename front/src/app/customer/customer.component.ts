@@ -21,7 +21,7 @@ export class CustomerComponent {
     address: '',
     mail: '',
     phone: 0,
-    birthday: '',
+    birthday: new Date,
   }
 
   constructor(
@@ -84,7 +84,7 @@ export class CustomerComponent {
     address: '',
     mail: '',
     phone: 0,
-    birthday: '',
+    birthday: new Date,
   }) {
     this.tempCustomer = customer
     this.visible = true;

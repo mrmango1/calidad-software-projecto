@@ -12,7 +12,7 @@ import { Customer } from "src/config/types";
 @Injectable({
   providedIn: 'root',
 })
-export class ClienteResolver implements Resolve<any> {
+export class CustomerResolver implements Resolve<any> {
   /**
    * Constructor
    */
