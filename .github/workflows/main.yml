@@ -1,15 +1,14 @@
-coverage:
-  status:
-    patch: false
-
-  range: 70..90
-                 
-  round: down      
-  precision: 2     
-
-comment:
-  layout: diff, files 
-name: Upload coverage reports to Codecov
-uses: codecov/codecov-action@v3
-env:
-  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+on: [push, pull_request]
+name: Run codecov
+jobs:
+  test:
+    strategy:
+      matrix:
+        go-version: [1.18.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
