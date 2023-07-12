@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
+import { CustomerComponent } from './customer/customer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 // PrimeNG Components
@@ -32,6 +33,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
   declarations: [
     AppComponent,
     ProductComponent,
+    CustomerComponent,
     NavbarComponent
   ],
   imports: [

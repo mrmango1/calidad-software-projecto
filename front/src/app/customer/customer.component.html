@@ -1,0 +1,72 @@
+<div class="card">
+  <p-table [value]="customers" [tableStyle]="{'min-width': '60rem'}">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        Customers
+        <p-button (click)="showDialog()" icon="pi pi-plus" label="Crear"></p-button>
+        <p-button (click)="refreshData()" icon="pi pi-refresh"></p-button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>F.Nacimiento</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td>{{customer.name}}</td>
+        <td>{{customer.address}}</td>
+        <td>{{customer.phone}}</td>
+        <td>{{customer.mail}}</td>
+        <td>{{customer.birthdate}}</td>
+        <td>
+          <p-toast></p-toast>
+          <p-confirmPopup></p-confirmPopup>
+          <p-button (click)="confirmDelete($event, customer)" styleClass="p-button-danger" icon="pi pni-trash"
+            label="Eliminar"></p-button>
+          <p-button (click)="showDialog(customer)" styleClass="p-button-success" icon="pi pni-external-lik"
+            label="Actualizar"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        Hay un total de {{customers ? customers.length : 0 }} clientes.
+      </div>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog header="Clientes" [(visible)]="visible" [modal]="true" [style]="{ width: '45vw' }"
+  [draggable]="false" [resizable]="false">
+  <div class="flex flex-column gap-4 pt-4 justify-content-center">
+    <span class="p-float-label align-self-center">
+      <input type="text" placeholder='Nombre' pInputText [(ngModel)]="tempCustomer.name" />
+      <label>Nombre</label>
+    </span>
+    <span class="p-float-label align-self-center">
+      <input type="text" placeholder='Dirección' pInputText [(ngModel)]="tempCustomer.address" />
+      <label>Dirección</label>
+    </span>
+    <span class="p-float-label align-self-center">
+      <p-inputNumber placeholder='Teléfono' pInputText [(ngModel)]="tempCustomer.phone" ></p-inputNumber>
+      <label>Teléfono</label>
+    </span>
+    <span class="p-float-label align-self-center">
+      <input type="mail" placeholder='Correo' pInputText [(ngModel)]="tempCustomer.mail" />
+      <label>Correo</label>
+    </span>
+    <span class="p-float-label align-self-center">
+      <input type="text" placeholder='F.Nacimiento' pInputText [(ngModel)]="tempCustomer.birthday"/>
+      <label>Fecha Nacimiento</label>
+    </span>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-button label="Cancel" (click)="visible = false" styleClass="p-button-danger"></p-button>
+    <p-button label="Ok" (click)="action()" styleClass="p-button-success"></p-button>
+  </ng-template>
+</p-dialog>
