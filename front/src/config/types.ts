@@ -14,5 +14,5 @@ export interface Customer {
   address: string;
   mail: string;
   phone: string;
-  birthdate: string;
+  birthdate: string | Date;
 }

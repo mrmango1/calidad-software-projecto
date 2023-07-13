@@ -4,7 +4,6 @@
       <div class="flex align-items-center justify-content-between">
         Customers
         <p-button (click)="showDialog()" icon="pi pi-plus" label="Crear"></p-button>
-        <p-button (click)="refreshData()" icon="pi pi-refresh"></p-button>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
@@ -23,7 +22,7 @@
         <td>{{customer.address}}</td>
         <td>{{customer.phone}}</td>
         <td>{{customer.mail}}</td>
-        <td>{{customer?.birthdate?.split('T')[0] ?? ''}}</td>
+        <td>{{customer.birthdate}}</td>
         <td>
           <p-toast></p-toast>
           <p-confirmPopup></p-confirmPopup>
@@ -62,12 +61,12 @@
       <label>Correo</label>
     </span>
     <span class="p-float-label align-self-center">
-      <p-calendar *ngIf="visible" appendTo="body" [(ngModel)]="tempCustomer.birthdate"></p-calendar>
+      <p-calendar *ngIf="visible" appendTo="body" dateFormat="dd/mm/yy" [(ngModel)]="tempCustomer.birthdate"></p-calendar>
       <label>Fecha Nacimiento</label>
     </span>
   </div>
   <ng-template pTemplate="footer">
-    <p-button label="Cancel" (click)="visible = false" styleClass="p-button-danger"></p-button>
+    <p-button label="Cancel" (click)="closeDialog()" styleClass="p-button-danger"></p-button>
     <p-button label="Ok" (click)="action()" styleClass="p-button-success"></p-button>
   </ng-template>
 </p-dialog>
