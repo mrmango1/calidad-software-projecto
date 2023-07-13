@@ -101,7 +101,7 @@ export class CustomerComponent {
       })
   }
 
-  action() {
+  createOrUpdate() {
     if (this.create) {
       this.createCustomer()
     } else {

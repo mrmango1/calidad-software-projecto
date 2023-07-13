@@ -76,7 +76,7 @@ export class ProductComponent {
       })
   }
 
-  action() {
+  createOrUpdate() {
     if (this.create) {
       this.createProduct();
     } else {
