@@ -15,7 +15,7 @@ export class Customer {
   mail: string;
 
   @Prop()
-  phone: number;
+  phone: string;
 
   @Prop()
   birthdate: string;
