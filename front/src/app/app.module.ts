@@ -28,6 +28,8 @@ import { TagModule } from 'primeng/tag';
 import { MenubarModule } from 'primeng/menubar';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { CalendarModule } from 'primeng/calendar';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     TagModule,
     FormsModule,
     ToastModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    CalendarModule,
+    InputMaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]

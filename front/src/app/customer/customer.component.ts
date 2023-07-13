@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, pipe, throwError } from 'rxjs';
 import { Customer } from "src/config/types";
 import { CustomerService } from "src/app/customer/customer.service";
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -20,8 +20,8 @@ export class CustomerComponent {
     name: '',
     address: '',
     mail: '',
-    phone: 0,
-    birthday: new Date,
+    phone: '',
+    birthdate: '',
   }
 
   constructor(
@@ -46,21 +46,51 @@ export class CustomerComponent {
 
   action() {
     if (this.create) {
-      this._customerService.createCustomer(this.tempCustomer).subscribe((response) => {
+      this._customerService.createCustomer(this.tempCustomer)
+      .pipe(
+        catchError((err: any) => {
+          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al crear el cliente, intente nuevamente' });
+          return throwError(() => err)
+        })
+      )
+      .subscribe(data => {
         this.refreshData();
-      });
+        setTimeout(() => {
+          this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Cliente creado' });
+        }, 500);
+      })
     } else {
-      this._customerService.updateCustomer(this.tempCustomer).subscribe((response) => {
+      this._customerService.updateCustomer(this.tempCustomer)
+      .pipe(
+        catchError((err: any) => {
+          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al actualizar el cliente, intente nuevamente' });
+          return throwError(() => err)
+        })
+      )
+      .subscribe(data => {
         this.refreshData();
-      });
+        setTimeout(() => {
+          this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Cliente actualizado' });
+        }, 500);
+      })
     }
     this.visible = false;
   }
 
   deleteCustomer(customer: Customer) {
-    this._customerService.deleteCustomer(customer._id).subscribe((response) => {
+    this._customerService.deleteCustomer(customer._id)
+    .pipe(
+      catchError((err: any) => {
+        this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al eliminar el cliente, intente nuevamente' });
+        return throwError(() => err)
+      })
+    )
+    .subscribe(data => {
       this.refreshData();
-    });
+      setTimeout(() => {
+        this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Cliente eliminado' });
+      }, 500);
+    })
   }
 
   confirmDelete(event: Event, customer: Customer) {
@@ -69,11 +99,7 @@ export class CustomerComponent {
         message: 'Está seguro que desea eliminar el cliente de la base de datos',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this._messageService.add({ severity: 'success', summary: 'Exitosa', detail: 'Cliente Eliminado' });
             this.deleteCustomer(customer);
-        },
-        reject: () => {
-            this._messageService.add({ severity: 'error', summary: 'Problema', detail: 'Hubo un error al eliminar el cliente, intente nuevamente' });
         }
     });
 }
@@ -83,8 +109,8 @@ export class CustomerComponent {
     name: '',
     address: '',
     mail: '',
-    phone: 0,
-    birthday: new Date,
+    phone: '',
+    birthdate: '',
   }) {
     this.tempCustomer = customer
     this.visible = true;

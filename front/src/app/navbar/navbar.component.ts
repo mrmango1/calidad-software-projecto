@@ -15,11 +15,11 @@ export class NavbarComponent implements OnInit {
         icon: 'pi pi-fw pi-book',
         routerLink: '/product'
       },
-//      {
-//        label: 'Mantenimiento de Usuarios',
-//        icon: 'pi pi-fw pi-user',
-//        routerLink: '/users',
-//      }
+     {
+       label: 'Mantenimiento de Clientes',
+       icon: 'pi pi-fw pi-user',
+       routerLink: '/customer',
+     }
     ];
   }
 }

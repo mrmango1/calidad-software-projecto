@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Product } from "src/config/types";
 import { ProductService } from "src/app/product/product.service";
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -47,21 +47,50 @@ export class ProductComponent {
 
   action() {
     if (this.create) {
-      this._productService.createProduct(this.tempProduct).subscribe((response) => {
+      this._productService.createProduct(this.tempProduct)
+      .pipe(
+        catchError((err: any) => {
+          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al crear el producto, intente nuevamente' });
+          return throwError(() => err)
+        })
+      )
+      .subscribe(data => {
         this.refreshData();
-      });
+        setTimeout(() => {
+          this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Producto creado' });
+        }, 500);
+      })
     } else {
-      this._productService.updateProduct(this.tempProduct).subscribe((response) => {
+      this._productService.updateProduct(this.tempProduct).pipe(
+        catchError((err: any) => {
+          this._messageService.add({ severity: 'error', summary: 'Error', detail: 'Hubo un error al actualizar el producto, intente nuevamente' });
+          return throwError(() => err)
+        })
+      )
+      .subscribe(data => {
         this.refreshData();
-      });
+        setTimeout(() => {
+          this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Producto actualizado' });
+        }, 500);
+      })
     }
     this.visible = false;
   }
 
   deleteProduct(product: Product) {
-    this._productService.deleteProduct(product._id).subscribe((response) => {
+    this._productService.deleteProduct(product._id)
+    .pipe(
+      catchError((err: any) => {
+        this._messageService.add({ severity: 'error', summary: 'Problema', detail: 'Hubo un error al eliminar el producto, intenet nuevamente' });
+        return throwError(() => err)
+      })
+    )
+    .subscribe(data => {
       this.refreshData();
-    });
+      setTimeout(() => {
+        this._messageService.add({ severity: 'success', summary: 'Exito', detail: 'Producto eliminado' });
+      }, 500);
+    })
   }
 
   confirmDelete(event: Event, product: Product) {
@@ -70,11 +99,7 @@ export class ProductComponent {
         message: 'Esta seguro que desea eliminar el producto del inventario',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
-            this._messageService.add({ severity: 'success', summary: 'Exitosa', detail: 'Producto Eliminado' });
             this.deleteProduct(product);
-        },
-        reject: () => {
-            this._messageService.add({ severity: 'error', summary: 'Problema', detail: 'Hubo un error al eliminar el producto,intenet nuevamente' });
         }
     });
 }

@@ -14,6 +14,7 @@
         <th>Correo</th>
         <th>Teléfono</th>
         <th>F.Nacimiento</th>
+        <th>Acciones</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-customer>
@@ -22,7 +23,7 @@
         <td>{{customer.address}}</td>
         <td>{{customer.phone}}</td>
         <td>{{customer.mail}}</td>
-        <td>{{customer.birthdate}}</td>
+        <td>{{customer?.birthdate?.split('T')[0] ?? ''}}</td>
         <td>
           <p-toast></p-toast>
           <p-confirmPopup></p-confirmPopup>
@@ -53,7 +54,7 @@
       <label>Dirección</label>
     </span>
     <span class="p-float-label align-self-center">
-      <p-inputNumber placeholder='Teléfono' pInputText [(ngModel)]="tempCustomer.phone" ></p-inputNumber>
+      <p-inputMask mask="0999999999" [(ngModel)]="tempCustomer.phone"></p-inputMask>
       <label>Teléfono</label>
     </span>
     <span class="p-float-label align-self-center">
@@ -61,7 +62,7 @@
       <label>Correo</label>
     </span>
     <span class="p-float-label align-self-center">
-      <input type="text" placeholder='F.Nacimiento' pInputText [(ngModel)]="tempCustomer.birthday"/>
+      <p-calendar *ngIf="visible" appendTo="body" [(ngModel)]="tempCustomer.birthdate"></p-calendar>
       <label>Fecha Nacimiento</label>
     </span>
   </div>
